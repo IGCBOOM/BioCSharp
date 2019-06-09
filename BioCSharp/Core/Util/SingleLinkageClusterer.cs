@@ -19,9 +19,9 @@ namespace BioCSharp.Core.Util
             public LinkedPair(int first, int second, double minDistance)
             {
 
-                this._first = first;
-                this._second = second;
-                this._closestDistance = minDistance;
+                _first = first;
+                _second = second;
+                _closestDistance = minDistance;
 
             }
 
