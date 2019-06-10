@@ -72,9 +72,7 @@ namespace BioCSharp.Core.Sequence.Storage
 
         public IEnumerator<T> GetEnumerator()
         {
-            
-
-
+            return new JoiningSequenceReaderEnum(_sequences);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -275,5 +273,67 @@ namespace BioCSharp.Core.Sequence.Storage
 
         }
 
+        public class JoiningSequenceReaderEnum : IEnumerator
+        {
+
+            private readonly List<ISequence<T>> _localSequences;
+            private IEnumerator<T> _currentSequenceIterator = null;
+            private int _currentPosition = 0;
+
+
+            public JoiningSequenceReaderEnum(List<ISequence<T>> sequences)
+            {
+                _localSequences = sequences;
+            }
+
+            public bool HasNext()
+            {
+                
+                if (_currentSequenceIterator == null)
+                {
+                    return _localSequences.Any();
+                }
+
+
+                bool hasNext = _currentSequenceIterator.MoveNext();
+                if (!hasNext)
+                {
+                    hasNext = _currentPosition < _localSequences.Count;
+                }
+
+                return hasNext;
+
+            }
+
+            public bool MoveNext()
+            {
+                if (_currentSequenceIterator == null)
+                {
+                    if (!_localSequences.Any())
+                    {
+                        throw new InvalidOperationException("No sequences to iterate over; make sure you call hasNext() before next()");
+                    }
+                    _currentSequenceIterator = _localSequences[_currentPosition].GetEnumerator();
+                    _currentPosition++;
+                }
+                if (!_currentSequenceIterator.MoveNext())
+                {
+                    _currentSequenceIterator = _localSequences[_currentPosition].GetEnumerator();
+                    _currentPosition++;
+                }
+                return _currentSequenceIterator.MoveNext();
+
+            }
+
+            public void Reset()
+            {
+                throw new NotImplementedException();
+            }
+
+            public object Current { get; }
+        }
+
+
     }
+
 }

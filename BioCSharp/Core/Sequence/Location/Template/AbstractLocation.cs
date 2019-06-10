@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using BioCSharp.Core.Sequence.Storage;
 using BioCSharp.Core.Sequence.Template;
 
 namespace BioCSharp.Core.Sequence.Location.Template
@@ -211,8 +212,8 @@ namespace BioCSharp.Core.Sequence.Location.Template
                 }
                 return new JoiningSequenceReader<T>(sequence.GetCompoundSet(), sequences);
             }
-            return reverseSequence(sequence.getSubSequence(
-                getStart().getPosition(), getEnd().getPosition()));
+            return ReverseSequence(sequence.GetSubSequence(
+                GetStart().GetPosition(), GetEnd().GetPosition()));
 
         }
 
