@@ -28,7 +28,7 @@ namespace BioCSharp.Core.Sequence.Location.Template
 
         ISequence<T> GetSubSequence<T>(ISequence<T> sequence) where T : ICompound;
 
-        ISequence<T> getRelevantSubSequence<T>(ISequence<T> sequence) where T : ICompound;
+        ISequence<T> GetRelevantSubSequence<T>(ISequence<T> sequence) where T : ICompound;
 
     }
 
